@@ -9,7 +9,7 @@ from .models import Library
 def list_books(request):
     # Fetch all books from the database
     books = Book.objects.all()
-    print(books)  # Debugging line to check the books fetched
+    # print(books)  # Debugging line to check the books fetched
 
     # Render the template and pass the books
     return render(request, 'relationship_app/list_books.html', {'books': books})
