@@ -44,7 +44,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')  # Redirect to a home or dashboard page after login
+            return redirect('/')  # Redirect to a home or dashboard page after login
     else:
         form = AuthenticationForm()
 
