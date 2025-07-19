@@ -13,3 +13,8 @@ start a new project
 
 
 
+Visit the following URLs in your browser:
+
+http://localhost:8000/relationship/books/: Displays a list of all books.
+
+http://localhost:8000/relationship/library/1/: Displays details for the library with ID 1 (make sure you have a library with ID 1).

@@ -12,9 +12,18 @@ def list_books(request):
     print(books)  # Debugging line to check the books fetched
 
     # Render the template and pass the books
-    return render(request, 'list_books.html', {'books': books})
+    return render(request, 'relationship_app/list_books.html', {'books': books})
 
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'library_detail.html'
-    context_object_name = 'library'
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'  # this is the object you'll refer to in your template
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        library = self.get_object()
+        
+        # Fetch books related to the library directly via the ManyToMany relationship
+        context['books_list'] = library.books.all()
+        
+        return context
