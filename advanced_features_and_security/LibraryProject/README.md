@@ -58,3 +58,27 @@ To assign a user to a group:
 
 To create groups with permissions via shell, run:
 python manage.py shell
+
+
+# Security Review - HTTPS Implementation
+
+## Implemented Settings
+
+- `SECURE_SSL_REDIRECT = True`: Forces all HTTP traffic to redirect to HTTPS.
+- `SECURE_HSTS_SECONDS = 31536000`: Enforces strict HTTPS access for 1 year.
+- `SECURE_HSTS_INCLUDE_SUBDOMAINS = True`: Applies HSTS policy to all subdomains.
+- `SECURE_HSTS_PRELOAD = True`: Allows site to be preloaded in browsers’ HSTS lists.
+- `SESSION_COOKIE_SECURE = True` and `CSRF_COOKIE_SECURE = True`: Ensures cookies only sent over HTTPS.
+- `X_FRAME_OPTIONS = 'DENY'`: Prevents clickjacking attacks.
+- `SECURE_CONTENT_TYPE_NOSNIFF = True`: Prevents MIME type sniffing.
+- `SECURE_BROWSER_XSS_FILTER = True`: Enables browser XSS protection.
+
+## Deployment
+
+- SSL is configured using Let’s Encrypt in the Nginx reverse proxy setup.
+- HTTP traffic is automatically redirected to HTTPS.
+
+## Notes
+
+- All security settings are disabled when `DEBUG=True`, so production must always use `DEBUG=False`.
+- Regular audits recommended.

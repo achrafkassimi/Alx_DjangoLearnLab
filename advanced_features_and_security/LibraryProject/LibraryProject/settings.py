@@ -131,10 +131,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SECURITY: Don't run with debug turned on in production!
 DEBUG = False
 
-# SECURITY HEADERS
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# Redirect all HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
+
 
 # HTTPS Cookie Security
 CSRF_COOKIE_SECURE = True
@@ -144,6 +144,15 @@ SESSION_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+# SECURITY HEADERS
+# Prevent clickjacking
+X_FRAME_OPTIONS = 'DENY'
+# Prevent the browser from MIME-sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# Enable the browser’s XSS filter
+SECURE_BROWSER_XSS_FILTER = True
+
 
 # Allowed Hosts
 ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']  # replace as needed
