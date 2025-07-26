@@ -33,3 +33,28 @@ You should be able to:
 - Log in using the credentials.
 - Log out from the application.
 
+
+# Permissions and Groups Setup
+
+We use Django's built-in permissions and groups system to control access:
+
+## Custom Permissions (Book model):
+- can_view
+- can_create
+- can_edit
+- can_delete
+
+## Groups:
+- Viewers: can_view
+- Editors: can_view, can_create, can_edit
+- Admins: all permissions
+
+## Usage:
+Permissions are checked in views using the @permission_required decorator.
+
+To assign a user to a group:
+1. Go to Django admin
+2. Select a user → choose group
+
+To create groups with permissions via shell, run:
+python manage.py shell

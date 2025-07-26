@@ -41,14 +41,15 @@ class Author(models.Model):
 # ---------- Book ----------
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey('Author', on_delete=models.CASCADE)
     publication_year = models.IntegerField(default=2000)
 
     class Meta:
         permissions = [
-            ("can_add_book", "Can add book"),
-            ("can_change_book", "Can change book"),
-            ("can_delete_book", "Can delete book"),
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
         ]
 
     def __str__(self):

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
-AUTH_USER_MODEL = 'bookshelf.CustomUser'
+# AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 
 MIDDLEWARE = [
