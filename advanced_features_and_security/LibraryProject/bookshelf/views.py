@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect
-from advanced_features_and_security.LibraryProject.bookshelf.forms import SearchForm
+from .forms import SearchForm
 from relationship_app.models import Book
 
 @permission_required('relationship_app.can_view', raise_exception=True)
@@ -37,3 +37,19 @@ def search_books(request):
     else:
         books = Book.objects.none()
     return render(request, 'bookshelf/book_list.html', {'books': books})
+
+
+from django.shortcuts import render
+from .forms import ExampleForm
+
+def example_form_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            author = form.cleaned_data['author']
+            # Safe use of cleaned data here
+            # Example: Book.objects.create(title=title, author=author)
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
