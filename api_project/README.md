@@ -19,3 +19,15 @@ achraf 1234
 - partial_update() – PATCH /books_all/<id>/
 
 - destroy() – DELETE /books_all/<id>/
+
+
+### token
+C:\Users\melua>     curl -H "Authorization: Token f1dc84894dd6a0774acd369339105c83a00d249d" http://127.0.0.1:8000/api/books_all/
+[
+    {"id":1,"title":"1984","author":"George Orwell"},
+    {"id":2,"title":"Brave New World","author":"Aldous Huxley"},
+    {"id":3,"title":"Fahrenheit 451","author":"Ray Bradbury"},
+    {"id":4,"title":"my name","author":"is achraf my book"}
+]
+
+C:\Users\melua>
