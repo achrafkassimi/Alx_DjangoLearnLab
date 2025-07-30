@@ -3,6 +3,7 @@
 
 - The serializers in REST framework work very similarly to Django's Form and ModelForm classes. We provide a Serializer class which gives you a powerful, generic way to control the output of your responses, as well as a ModelSerializer class which provides a useful shortcut for creating serializers that deal with model instances and querysets.
 
+achraf 1234
 
 
 ### This ModelViewSet provides these endpoints automatically:
