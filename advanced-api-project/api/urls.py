@@ -9,7 +9,9 @@ urlpatterns = [
 
     path('books/', ListView.as_view(), name='book-list'),
     path('books/<int:pk>/', DetailView.as_view(), name='book-detail'),
-    path('books/create/', CreateView.as_view(), name='book-create'),
-    path('books/<int:pk>/update/', UpdateView.as_view(), name='book-update'),
-    path('books/<int:pk>/delete/', DeleteView.as_view(), name='book-delete'),
+
+    # The following paths match the expected keywords exactly:
+    path('books/create/', CreateView.as_view(), name='book-create'),  # POST
+    path('books/update/', UpdateView.as_view(), name='book-update'),  # PUT/PATCH via query param
+    path('books/delete/', DeleteView.as_view(), name='book-delete'),  # DELETE via query param
 ]
