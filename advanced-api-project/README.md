@@ -3,7 +3,7 @@ Username (leave blank to use 'achraf'): achraf
 Email address: achraf@gmail.com
 Password: 1234
 Password (again): 1234
-
+- venv\Scripts\activate.bat
 
 ## API Endpoints
 
@@ -17,3 +17,18 @@ Password (again): 1234
 ### Permissions
 - Unauthenticated users: Can only read data.
 - Authenticated users: Can create, update, and delete books.
+
+
+"""
+Filtering:
+- /api/books/?title=AI
+- /api/books/?publication_year=2023
+- /api/books/?author=1
+
+Search:
+- /api/books/?search=deep learning
+
+Ordering:
+- /api/books/?ordering=title
+- /api/books/?ordering=-publication_year
+"""
