@@ -32,3 +32,30 @@ Ordering:
 - /api/books/?ordering=title
 - /api/books/?ordering=-publication_year
 """
+
+✅ 1. Basic GET Request – List All Books
+bash
+Copier le code
+curl -X GET http://127.0.0.1:8000/api/books/
+✅ 2. Filtering by Title
+bash
+Copier le code
+curl -X GET "http://127.0.0.1:8000/api/books/?title=AI"
+✅ 3. Filtering by Author ID and Publication Year
+bash
+Copier le code
+curl -X GET "http://127.0.0.1:8000/api/books/?author=2&publication_year=2024"
+✅ 4. Search by Title or Author Name
+(assuming search_fields = ['title', 'author__name'])
+
+bash
+Copier le code
+curl -X GET "http://127.0.0.1:8000/api/books/?search=achraf"
+✅ 5. Ordering by Title (A-Z)
+bash
+Copier le code
+curl -X GET "http://127.0.0.1:8000/api/books/?ordering=title"
+✅ 6. Ordering by Publication Year (Newest First)
+bash
+Copier le code
+curl -X GET "http://127.0.0.1:8000/api/books/?ordering=-publication_year"
