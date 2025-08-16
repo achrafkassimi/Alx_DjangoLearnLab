@@ -18,7 +18,7 @@ def register(request):
             return redirect('profile')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'blog/register.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
 
 
 @login_required
@@ -37,3 +37,12 @@ def profile(request):
 
         messages.success(request, "Profile updated successfully.")
     return render(request, 'blog/profile.html', {'user_profile': UserProfile.objects.get(user=request.user)})
+
+
+# blog/views.py
+
+from django.shortcuts import render
+
+def home(request):
+    # This will render the home.html template when you visit the root URL.
+    return render(request, 'blog/home.html')

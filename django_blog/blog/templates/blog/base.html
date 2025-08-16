@@ -1,18 +1,12 @@
-<!-- blog/templates/base_generic.html -->
+<!-- blog/templates/blog/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Django Blog{% endblock %}</title>
-
-    <!-- Load static files (CSS) -->
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
-    <script src="{% static 'blog/js/scripts.js' %}" defer></script>
-
-    {% block extra_head %}
-    {% endblock %}
+    <title>Blog</title>
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
 <body>
     <header>
@@ -22,19 +16,13 @@
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>
                 <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="container">
+    <div>
         {% block content %}
-        <!-- Content from individual pages will go here -->
         {% endblock %}
     </div>
-
-    <footer>
-        <p>&copy; 2025 My Django Blog</p>
-    </footer>
 </body>
 </html>
