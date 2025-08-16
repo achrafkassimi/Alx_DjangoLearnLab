@@ -79,20 +79,22 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
-# Update an existing post
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    form_class = PostForm
+    fields = ['title', 'content']
     template_name = 'blog/post_form.html'
 
     def form_valid(self, form):
-        # Ensure that only the author can update the post
-        if form.instance.author != self.request.user:
-            return redirect('post_list')  # Redirect if the user is not the author
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
+
+    def test_func(self):
+        post = self.get_object()
+        return post.author == self.request.user
+
 
 # Delete an existing post
 class PostDeleteView(LoginRequiredMixin, DeleteView):
