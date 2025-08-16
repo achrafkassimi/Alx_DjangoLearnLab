@@ -15,10 +15,28 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 
+from django import forms
+from .models import Post, Tag
+
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(required=False, help_text="Enter tags separated by commas")
+
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ["title", "content", "tags"]
+
+    def save(self, commit=True, *args, **kwargs):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+            tag_names = [t.strip() for t in self.cleaned_data["tags"].split(",") if t.strip()]
+            tags = []
+            for name in tag_names:
+                tag, created = Tag.objects.get_or_create(name=name)
+                tags.append(tag)
+            instance.tags.set(tags)
+        return instance
+
 
 
 
