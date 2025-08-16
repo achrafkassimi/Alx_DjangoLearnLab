@@ -53,10 +53,20 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_blog.urls'
 
+
+# Static files (CSS, JavaScript, images)
+STATIC_URL = '/static/'
+
+# Ensure you have this to collect static files when you deploy to production
+STATICFILES_DIRS = [BASE_DIR / 'blog/static']
+
+# Static file storage path for production (optional in development)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'blog/templates')],
+        'DIRS': [BASE_DIR / 'blog/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,14 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Static files (CSS, JavaScript, images)
-STATIC_URL = '/static/'
 
-# Ensure you have this to collect static files when you deploy to production
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
-# Static file storage path for production (optional in development)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
