@@ -12,6 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm
+from .forms import UserProfileForm  # Assuming you have a form to create the profile
+
 
 # User Registration View
 def register(request):
@@ -28,24 +30,28 @@ def register(request):
 
 
 @login_required
+
 def profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        # You can either redirect to a profile creation page, or show a message
+        return redirect('profile_create')  # Make sure to have a view for creating the profile
+    return render(request, 'blog/profile.html', {'user_profile': user_profile})
+
+
+def profile_create(request):
     if request.method == 'POST':
-        # Update email
-        request.user.email = request.POST['email']
-        request.user.save()
+        form = UserProfileForm(request.POST)  # Assuming you have a UserProfileForm
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user  # Link profile to the logged-in user
+            user_profile.save()
+            return redirect('profile')  # Redirect to the profile page after creation
+    else:
+        form = UserProfileForm()  # Render an empty form
+    return render(request, 'blog/profile_create.html', {'form': form})  # Render profile creation template
 
-        # Update profile information
-        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
-        user_profile.bio = request.POST.get('bio', user_profile.bio)
-        if 'profile_picture' in request.FILES:
-            user_profile.profile_picture = request.FILES['profile_picture']
-        user_profile.save()
-
-        messages.success(request, "Profile updated successfully.")
-    return render(request, 'blog/profile.html', {'user_profile': UserProfile.objects.get(user=request.user)})
-
-
-# blog/views.py
 
 from django.shortcuts import render
 

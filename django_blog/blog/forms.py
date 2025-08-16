@@ -30,3 +30,14 @@ class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['content'].widget = forms.Textarea(attrs={'rows': 4, 'placeholder': 'Add a comment...'})
+
+
+# blog/forms.py
+
+from django import forms
+from .models import UserProfile
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio']  # Only include fields that actually exist in UserProfile

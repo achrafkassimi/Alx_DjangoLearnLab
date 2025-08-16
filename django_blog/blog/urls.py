@@ -10,6 +10,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='blog/logged_out.html'), name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+    # Add this for profile creation
+    path('profile/create/', views.profile_create, name='profile_create'),  # New URL pattern for creating profile
 
     # Blog Post CRUD URLs
     path('posts/', views.PostListView.as_view(), name='post_list'),
