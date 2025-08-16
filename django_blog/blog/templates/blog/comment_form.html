@@ -1,0 +1,7 @@
+<!-- blog/templates/blog/comment_form.html -->
+<h2>Comment Form</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Comment</button>
+</form>

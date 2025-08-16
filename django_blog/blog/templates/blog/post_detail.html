@@ -1,14 +1,22 @@
 <!-- blog/templates/blog/post_detail.html -->
-{% extends 'blog/base.html' %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
 
-{% block content %}
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.content }}</p>
-  <p><strong>Author:</strong> {{ post.author.username }}</p>
-  <p><strong>Published on:</strong> {{ post.published_date }}</p>
-  
-  {% if post.author == request.user %}
-    <a href="{% url 'post_edit' pk=post.pk %}">Edit</a>
-    <a href="{% url 'post_delete' pk=post.pk %}">Delete</a>
-  {% endif %}
-{% endblock %}
+<h3>Comments</h3>
+{% for comment in post.comments.all %}
+    <div>
+        <p>{{ comment.author }} says: {{ comment.content }}</p>
+        <p>{{ comment.created_at }}</p>
+        {% if comment.author == user %}
+            <a href="{% url 'comment_edit' pk=comment.pk %}">Edit</a>
+            <a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<h4>Add a Comment</h4>
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Post Comment</button>
+</form>
