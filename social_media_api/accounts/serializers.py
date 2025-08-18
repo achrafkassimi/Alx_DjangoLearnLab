@@ -1,43 +1,45 @@
-from rest_framework import serializers
+from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token  # Import Token model for token generation
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.authtoken.models import Token
+from rest_framework import serializers
+from .models import CustomUser, UserProfile
 
-# User = get_user_model()
 
-# Custom User Registration Serializer
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class CustomUserSerializer(serializers.ModelSerializer):
+    profile_pucture = serializers.ImageField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
     class Meta:
-        model = get_user_model()
-        fields = ['username', 'email', 'password', 'bio', 'profile_picture']  # Customize this as per your model
+        model = CustomUser
+        fields = ['username', 'email', 'bio', 'profile_picture', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
+        # user = CustomUser(**validated_data)
+        # user.set_password(validated_data['password'])
+        # user.save()
         user = get_user_model().objects.create_user(**validated_data)
-        user.set_password(password)  # Hash password
-        user.save()
-        Token.objects.create(user=user)  # Create a token for the user
-        return user
+        token, created = Token.objects.create(user=user)
+        return {'user': user, 'token': token.key}
 
-# Custom User Login Serializer
-class UserLoginSerializer(serializers.Serializer):
+
+class LoginSerializer(serializers.Serializer):
+    # username = serializers.CharField(max_length=255)
     username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(max_length=255, write_only=True)
 
-    def validate(self, data):
-        username = data.get('username')
-        password = data.get('password')
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            attrs['user'] = user
+            return attrs
+        raise serializers.ValidationError('Invalid credentials')
 
-        user = get_user_model().objects.filter(username=username).first()
-        if user is None:
-            raise AuthenticationFailed('User not found')
 
-        if not user.check_password(password):
-            raise AuthenticationFailed('Invalid credentials')
-
-        # Generate a token for successful authentication
-        token, _ = Token.objects.get_or_create(user=user)
-        return {'token': token.key}
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['email', 'profile_picture']

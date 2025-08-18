@@ -1,21 +1,12 @@
-from django.urls import path, include
-from .views import FollowUserView, RegisterView, LoginView, ProfileView, CustomUserViewSet, UnfollowUserView
-from rest_framework.routers import DefaultRouter
-
-# Set up a router for CustomUserViewSet
-router = DefaultRouter()
-router.register(r'users', CustomUserViewSet)
-
+from django.urls import path
+from .views import register, user_login, CustomAuthToken, follow_user, unfollow_user
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('profile/', ProfileView.as_view(), name='profile'),
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    path('profile/', user_login, name='profile'),
+    path('token/', CustomAuthToken.as_view(), name='token'),
+    path('follow/<int:user_id>/', follow_user, name='follow_user'),
+    path('unfollow/<int:user_id>/', unfollow_user, name='unfollow_user'),
     
-    # Follow and Unfollow routes
-    path('follow/<int:pk>/', FollowUserView.as_view(), name='follow_user'),
-    path('unfollow/<int:pk>/', UnfollowUserView.as_view(), name='unfollow_user'),
-
-    # Register the router URLs for the CustomUserViewSet
-    # path('', include(router.urls)),s
 ]
