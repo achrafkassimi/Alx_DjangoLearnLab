@@ -72,3 +72,36 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
         user.following.remove(user_to_unfollow)  # Remove from following
         return Response({"detail": f"Unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+
+
+
+# accounts/views.py
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from .models import CustomUser
+from rest_framework import status
+from .serializers import CustomUserSerializer
+
+# View to handle following a user
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        user_to_follow = CustomUser.objects.get(id=pk)
+        if user_to_follow == request.user:
+            return Response({"detail": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.following.add(user_to_follow)  # Add user to following
+        return Response({"detail": f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
+
+# View to handle unfollowing a user
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        user_to_unfollow = CustomUser.objects.get(id=pk)
+        if user_to_unfollow == request.user:
+            return Response({"detail": "You cannot unfollow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.following.remove(user_to_unfollow)  # Remove user from following
+        return Response({"detail": f"You have unfollowed {user_to_unfollow.username}."}, status=status.HTTP_200_OK)
