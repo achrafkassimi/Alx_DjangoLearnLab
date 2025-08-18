@@ -141,3 +141,25 @@ class PostCommentTests(APITestCase):
         response = self.client.post(self.comments_url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+# posts/tests.py
+
+from rest_framework.test import APITestCase
+from rest_framework import status
+from django.contrib.auth import get_user_model
+from posts.models import Post
+
+class FeedTests(APITestCase):
+    def setUp(self):
+        self.user1 = get_user_model().objects.create_user(username='user1', password='password')
+        self.user2 = get_user_model().objects.create_user(username='user2', password='password')
+        self.post1 = Post.objects.create(user=self.user1, title="Post 1", content="Content 1")
+        self.post2 = Post.objects.create(user=self.user2, title="Post 2", content="Content 2")
+
+    def test_feed(self):
+        self.client.login(username='user1', password='password')
+        self.client.post(f'/accounts/follow/{self.user2.id}/')  # Follow user2
+        response = self.client.get('/posts/feed/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)  # Only post2 from user2 should be in the feed
