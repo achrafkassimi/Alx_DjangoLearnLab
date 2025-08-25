@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
+from api_project.api_project import settings
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -154,3 +156,11 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
     ]
 }
+
+
+# Check if 'PORT' is in settings.py
+required_keys = ["PORT"]
+# missing_keys = [key for key in required_keys if key not in settings.DATABASES['default']]
+
+# if missing_keys:
+#     raise ValueError(f"Missing required database config(s) in settings.py: {missing_keys}")
